@@ -1,0 +1,11 @@
+{
+  "init": {
+    "name": "init",
+    "path": {
+      "webpack": "jiawei397/webpack-template",
+      "rollup": "jiawei397/rollup-template",
+      "typescript": "jiawei397/ts-template",
+      "vue": "jiawei397/vue-template"
+    }
+  }
+}

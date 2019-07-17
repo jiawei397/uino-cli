@@ -1,0 +1,21 @@
+{
+  "name": "uino-cli",
+  "version": "1.0.0",
+  "description": "npm 手脚架",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "uino-cli": "bin/cli.js"
+  },
+  "author": "jw",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^2.20.0",
+    "download-git-repo": "^2.0.0",
+    "inquirer": "^6.4.1",
+    "ora": "^3.4.0"
+  }
+}
