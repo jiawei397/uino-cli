@@ -14,9 +14,14 @@ program.command('init')
   .description('create a new project')
   .alias('i')
   .action(() => {
-    require ('../commands/init'
-  )
+    require ('../commands/init')
 });
+
+program.command('zip')
+  .description('压缩图层面板包')
+  .action(() => {
+    require ('../commands/zip')();
+  });
 
 program.parse(process.argv);
 
