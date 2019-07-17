@@ -58,5 +58,7 @@ module.exports = () => {
     console.log(`${chalk.red('没有找到文件')}`);
   }).catch((err) => {
     console.log(`${chalk.red(err)}`);
+  }).then(()=>{
+    console.log(`${chalk.green('压缩成功')}`);
   });
 };
