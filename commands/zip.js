@@ -11,7 +11,7 @@ const dateFormat = require('dateformat');
 const fs = require('fs');
 const utils = require('util');
 const readdir = utils.promisify(fs.readdir);
-const babel = require('gulp-babel');
+// const babel = require('gulp-babel');
 const path = require('path');
 const chalk = require('chalk');
 /**
