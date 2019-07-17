@@ -5,7 +5,6 @@ frame/source/
 /.vscode/
 /node_modules/
 /gulp-cache/
-/zip/
 /.eslintcache
 /*.log
 /test/unit/coverage/

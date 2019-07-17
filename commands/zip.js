@@ -24,7 +24,7 @@ let zipFrame = function (fileName, filePath, destPath = 'dist') {
     fileName = fileName.substring(0, fileName.length - 3);
   }
   let zipName = fileName + '_' + dateFormat(new Date(), 'yyyymmdd') + '.zip';
-  return gulp.src([filePath + fileName + '.js'])
+  gulp.src(path.resolve(filePath, fileName + '.js'))
     .pipe(babel())
     .pipe(uglify())
     .pipe(rename('frame.js'))
@@ -36,12 +36,14 @@ let zipFrame = function (fileName, filePath, destPath = 'dist') {
  * 打包图层面板包
  */
 module.exports = () => {
-  let filePath = './src/';
+  let filePath = path.resolve(__dirname, './src/');
   return readdir(filePath).then((arr) => {
     return Promise.all(arr.map((fileName) => {
       return zipFrame(fileName, filePath);
     }));
-  }, ()=>{
-    console.log('没有找到文件');
+  }, () => {
+    console.log(`${chalk.red('没有找到文件')}`);
+  }).catch((err) => {
+    console.log(`${chalk.red(err)}`);
   });
 };
