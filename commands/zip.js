@@ -12,6 +12,8 @@ const fs = require('fs');
 const utils = require('util');
 const readdir = utils.promisify(fs.readdir);
 const babel = require('gulp-babel');
+const path = require('path');
+const chalk = require('chalk');
 /**
  * @param {String} fileName 要压缩的js文件名称
  * @param {String} filePath 要压缩的js文件路径
@@ -24,8 +26,19 @@ let zipFrame = function (fileName, filePath, destPath = 'dist') {
     fileName = fileName.substring(0, fileName.length - 3);
   }
   let zipName = fileName + '_' + dateFormat(new Date(), 'yyyymmdd') + '.zip';
-  gulp.src(path.resolve(filePath, fileName + '.js'))
-    .pipe(babel())
+  let src = path.resolve(filePath, fileName + '.js');
+  return gulp.src(src)
+    // .pipe(babel({  //TODO babel编译必须在项目下安装，这点暂时没有解决
+    //     "presets": [
+    //       "@babel/env"
+    //     ],
+    //     "sourceType":"script"
+    //   }
+    // ))
+    // .on('error', function(err) {
+    //   console.log('Less Error!', err.message);
+    //   this.end();
+    // })
     .pipe(uglify())
     .pipe(rename('frame.js'))
     .pipe(zip(zipName))
@@ -36,7 +49,7 @@ let zipFrame = function (fileName, filePath, destPath = 'dist') {
  * 打包图层面板包
  */
 module.exports = () => {
-  let filePath = path.resolve(__dirname, './src/');
+  let filePath = './src/';
   return readdir(filePath).then((arr) => {
     return Promise.all(arr.map((fileName) => {
       return zipFrame(fileName, filePath);
