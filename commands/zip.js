@@ -27,7 +27,8 @@ let zipFrame = function (fileName, filePath, destPath = 'dist') {
   }
   let zipName = fileName + '_' + dateFormat(new Date(), 'yyyymmdd') + '.zip';
   let src = path.resolve(filePath, fileName + '.js');
-  return gulp.src(src)
+  return new Promise((resolve, reject) => {
+    gulp.src(src)
     // .pipe(babel({  //TODO babel编译必须在项目下安装，这点暂时没有解决
     //     "presets": [
     //       "@babel/env"
@@ -39,10 +40,17 @@ let zipFrame = function (fileName, filePath, destPath = 'dist') {
     //   console.log('Less Error!', err.message);
     //   this.end();
     // })
-    .pipe(uglify())
-    .pipe(rename('frame.js'))
-    .pipe(zip(zipName))
-    .pipe(gulp.dest(destPath));
+      .pipe(uglify())
+      .on('error', function (err) {
+        reject(err);
+      })
+      .pipe(rename('frame.js'))
+      .pipe(zip(zipName))
+      .pipe(gulp.dest(destPath))
+      .on('end', () => {
+        resolve();
+      });
+  });
 };
 
 /**
@@ -53,12 +61,12 @@ module.exports = () => {
   return readdir(filePath).then((arr) => {
     return Promise.all(arr.map((fileName) => {
       return zipFrame(fileName, filePath);
-    }));
+    })).then(() => {
+      console.log(`${chalk.green('压缩成功')}`);
+    });
   }, () => {
     console.log(`${chalk.red('没有找到文件')}`);
   }).catch((err) => {
     console.log(`${chalk.red(err)}`);
-  }).then(()=>{
-    console.log(`${chalk.green('压缩成功')}`);
   });
 };
